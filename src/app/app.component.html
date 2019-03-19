@@ -3,7 +3,7 @@
     <div class="branding">
       <a href="javascript://" class="nav-link nav-icon">
         <clr-icon shape="tools"></clr-icon>
-        <span class="title">{{title}}</span>
+        <span class="title">{{ title }}</span>
       </a>
     </div>
     <div class="header-nav" [clr-nav-level]="1">
@@ -48,14 +48,24 @@
         </div>
       </div>
       <!-- <button type="button" *ngIf="!authenticated" (click)="doLogin()" class="nav-link btn btn-danger" href="#">Reauth</button> -->
-        <div class="btn-group">
-          <button class="btn" [ngClass]="this._ebay.isSandbox ? 'btn-success' : 'btn-success-outline'"
-          (click)="this._ebay.swapEnv(true)" type="button"
-           >Sandbox</button>
-          <button class="btn" [ngClass]="!this._ebay.isSandbox ? 'btn-success' : 'btn-success-outline'"
-          (click)="this._ebay.swapEnv(false)" type="button"
-           >Production</button>
-           </div>
+      <div class="btn-group">
+        <button
+          class="btn"
+          [ngClass]="this._ebay.isSandbox ? 'btn-success' : 'btn-success-outline'"
+          (click)="this._ebay.swapEnv(true)"
+          type="button"
+        >
+          Sandbox
+        </button>
+        <button
+          class="btn"
+          [ngClass]="!this._ebay.isSandbox ? 'btn-success' : 'btn-success-outline'"
+          (click)="this._ebay.swapEnv(false)"
+          type="button"
+        >
+          Production
+        </button>
+      </div>
     </div>
   </clr-header>
   <div class="content-container">
