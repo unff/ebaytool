@@ -7,7 +7,22 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "electron": "electron .",
+    "electron-build": "ng build --prod && electron .",
+    "dist": "build",
+    "pack": "build --dir",
+    "complete": "ng build --prod && build"
+  },
+  "build": {
+    "files": [
+      "main.js",
+      "build"
+    ],
+    "win": {
+      "target": "NSIS",
+      "icon": "electronbuilder/icon.ico"
+    }
   },
   "private": true,
   "dependencies": {

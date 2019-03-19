@@ -1,21 +1,66 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
-<router-outlet></router-outlet>
+<clr-main-container>
+  <clr-header>
+    <div class="branding">
+      <a href="javascript://" class="nav-link nav-icon">
+        <clr-icon shape="tools"></clr-icon>
+        <span class="title">{{title}}</span>
+      </a>
+    </div>
+    <div class="header-nav" [clr-nav-level]="1">
+      <div class="btn-group nav-text">
+        <div class="radio btn">
+          <!-- These btnRadio things are part of ngx-bootstrap, and I hope I dont have to go back down that hole
+                 Find a way to bind this radio to the siteModel with Clarity-->
+          <input
+            type="radio"
+            value="EBAY_US"
+            name="btn-group-site-radios"
+            [(ngModel)]="this._ebay.siteModel"
+            tabindex="0"
+            role="button"
+            id="btn-site-radio-1"
+          />
+          <label for="btn-site-radio-1">EBAY_US</label>
+        </div>
+        <div class="radio btn">
+          <input
+            type="radio"
+            value="EBAY_UK"
+            name="btn-group-site-radios"
+            [(ngModel)]="this._ebay.siteModel"
+            tabindex="0"
+            role="button"
+            id="btn-site-radio-2"
+          />
+          <label for="btn-site-radio-2">EBAY_UK</label>
+        </div>
+        <div class="radio btn">
+          <input
+            type="radio"
+            value="EBAY_AU"
+            name="btn-group-site-radios"
+            [(ngModel)]="this._ebay.siteModel"
+            tabindex="0"
+            role="button"
+            id="btn-site-radio-3"
+          />
+          <label for="btn-site-radio-3">EBAY_AU</label>
+        </div>
+      </div>
+      <!-- <button type="button" *ngIf="!authenticated" (click)="doLogin()" class="nav-link btn btn-danger" href="#">Reauth</button> -->
+        <div class="btn-group">
+          <button class="btn" [ngClass]="this._ebay.isSandbox ? 'btn-success' : 'btn-success-outline'"
+          (click)="this._ebay.swapEnv(true)" type="button"
+           >Sandbox</button>
+          <button class="btn" [ngClass]="!this._ebay.isSandbox ? 'btn-success' : 'btn-success-outline'"
+          (click)="this._ebay.swapEnv(false)" type="button"
+           >Production</button>
+           </div>
+    </div>
+  </clr-header>
+  <div class="content-container">
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</clr-main-container>

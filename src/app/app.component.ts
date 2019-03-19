@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { EbayService } from './services/ebay.service'
 
 @Component({
   selector: 'ebt-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ebaytool';
+  title = 'ebaytool'
+
+  constructor(public _ebay: EbayService) {}
 }
