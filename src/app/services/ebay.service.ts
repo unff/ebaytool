@@ -29,8 +29,7 @@ export class EbayService {
       this.sandboxConfig = res.ebaysandbox
     })
 
-    }
   }
-
   public swapEnv(b: boolean) { this.isSandbox = b}
 }
+
