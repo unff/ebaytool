@@ -5,6 +5,7 @@ import { LocalStorage } from 'ngx-store'
 import { Observable } from 'rxjs'
 import { Config } from './config'
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,22 +15,25 @@ export class EbayService {
     private config: Observable<Config>
     private productionConfig: Config
     private sandboxConfig: Config
+    private windowHandle: Electron.BrowserWindow = null
 
-    @LocalStorage() public siteModel: string
-    @LocalStorage() public isSandbox: boolean
+    @LocalStorage() public siteModel: string // holds the region identifier
+    @LocalStorage() public isSandbox: boolean // switch to handle whether it's sandbox or not
 
   constructor(private _auth: AuthService, private _http: HttpClient) {
     // temp variables for UI.
-      this.siteModel = 'EBAY_US'
-      this.isSandbox = false
+    this.siteModel = 'EBAY_US'
+    this.isSandbox = false
     // end temp variables. clean up later.
     this.config = this._http.get('assets/config.json') as Observable<Config>
     this.config.toPromise().then((res: any) => {
       this.productionConfig = res.ebay as Config
       this.sandboxConfig = res.ebaysandbox as Config
     })
-
   }
-  public swapEnv(b: boolean) { this.isSandbox = b}
+  public swapEnv(b: boolean) { this.isSandbox = b }
+  public openAuthWindow(url: string): Electron.BrowserWindow {
+    const win: Electron.BrowserWindow = this._auth.openAuthWindow(url)
+    return win
+  }
 }
-
