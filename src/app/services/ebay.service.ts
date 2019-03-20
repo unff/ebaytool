@@ -25,8 +25,8 @@ export class EbayService {
     // end temp variables. clean up later.
     this.config = this._http.get('assets/config.json') as Observable<Config>
     this.config.toPromise().then((res: any) => {
-      this.productionConfig = res.ebay
-      this.sandboxConfig = res.ebaysandbox
+      this.productionConfig = res.ebay as Config
+      this.sandboxConfig = res.ebaysandbox as Config
     })
 
   }
