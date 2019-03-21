@@ -12,13 +12,20 @@ export class AuthService {
                         height: number = 600, left: number = 0,
                         top: number = 0)
                         : Electron.BrowserWindow {
-    if (url == null) {
-      return null
+    try {
+      const u: URL = new URL(url)
+      const opts = {width: width, height: height, left: left, top: top}
+      const win = new this._e.remote.BrowserWindow(opts)
+      win.loadURL(url)
+      win.once('ready-to-show', () => {win.show()})
+      return win
     }
-    const opts = {width: width, height: height, left: left, top: top}
-    const win = new this._e.remote.BrowserWindow(opts)
-    win.loadURL(url)
-    win.once('ready-to-show', () => {win.show()})
-    return win
+    catch(e) {
+      if (e instanceof TypeError) { return false } // bad URL, no likey
+    }
   }
+
+  public getRefreshToken() {}
+
+  public renewAccessToken() {}
 }
