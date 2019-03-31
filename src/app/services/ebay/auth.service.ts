@@ -11,7 +11,7 @@ export class AuthService {
   public openAuthWindow( url: string, width: number = 1500, height: number = 600,
                         left: number = 0, top: number = 0): Electron.BrowserWindow {
     try {
-      const u: URL = new URL(url)
+      const u: URL = new URL(url) // will throw a TypeError exception if it's not a valid URL
       const opts = {width: width, height: height, left: left, top: top}
       const win = new this._e.remote.BrowserWindow(opts)
       win.loadURL(url)
@@ -22,7 +22,15 @@ export class AuthService {
     }
   }
 
-  public getRefreshToken() {}
+  public getTokenSet() {}
 
   public renewAccessToken() {}
 }
+// Token flow:
+// Open Window
+// Go to auth URL
+// authenticate
+// pick up redirect.
+// I wonder if an httpInterceptor would be better? Dont think so as we aren't really getting a response?
+// play with electron webContents https://github.com/electron/electron/blob/master/docs/api/web-contents.md
+// otherwise, listen for a URL with /code/ in it and pluck the keys from that.
