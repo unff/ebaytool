@@ -47,7 +47,7 @@
           <label for="btn-site-radio-3">EBAY_AU</label>
         </div>
       </div>
-      <!-- <button type="button" *ngIf="!authenticated" (click)="doLogin()" class="nav-link btn btn-danger" href="#">Reauth</button> -->
+       <button type="button" (click)="doLogin()" class="nav-link btn btn-danger" href="#">Reauth</button>
       <div class="btn-group">
         <button
           class="btn"
@@ -70,6 +70,7 @@
   </clr-header>
   <div class="content-container">
     <main class="content-area">
+        [bigUrl]
       <router-outlet></router-outlet>
     </main>
   </div>

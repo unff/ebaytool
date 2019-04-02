@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
+import { HttpClientModule } from '@angular/common/http'
 import { WebStorageModule } from 'ngx-store'
 
 import { AppRoutingModule } from './app-routing.module'
@@ -14,6 +15,7 @@ import { NgxElectronModule } from 'ngx-electron'
     AppComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     ClarityModule,

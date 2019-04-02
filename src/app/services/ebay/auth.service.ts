@@ -1,16 +1,38 @@
 import { Injectable } from '@angular/core'
+import { LocalStorage } from 'ngx-store'
+import { Observable, fromEvent,  } from 'rxjs'
+import { Config } from '../config'
+import { BrowserWindow, WebContents, EventEmitter, webContents } from 'electron'
 import { ElectronService } from 'ngx-electron'
-// import { BrowserWindow, WebContents } from 'electron'
+import { HttpClient } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+    private config: Observable<Config>
+    private productionConfig: Config
+    private sandboxConfig: Config
+    private windowHandle: Electron.BrowserWindow = null
+    public bigUrl: string
 
-  constructor(private _e: ElectronService) { }
+    public get runningConfig(): Config {
+        return this.isSandbox ? this.sandboxConfig : this.productionConfig
+      }
+
+    @LocalStorage() public siteModel: string // holds the region identifier
+    @LocalStorage() public isSandbox: boolean // switch to handle whether it's sandbox or not
+
+  constructor(private _e: ElectronService, private _http: HttpClient) {
+    this.config = this._http.get('assets/config.json') as Observable<Config>
+    this.config.toPromise().then((res: any) => {
+      this.productionConfig = res.ebay as Config
+      this.sandboxConfig = res.ebaysandbox as Config
+    })
+  }
 
   public openAuthWindow( url: string, width: number = 1500, height: number = 600,
-                        left: number = 0, top: number = 0): Electron.BrowserWindow {
+                        left: number = 0, top: number = 0): BrowserWindow {
     try {
       const u: URL = new URL(url) // will throw a TypeError exception if it's not a valid URL
       const opts = {width: width, height: height, left: left, top: top}
@@ -24,7 +46,15 @@ export class AuthService {
   }
 
   public getTokenSet() {
-    const winHandle = this.openAuthWindow()
+    const winHandle: BrowserWindow = this.openAuthWindow(this.fullAuthUrl())
+    const authWinContents: WebContents = winHandle.webContents
+    authWinContents.on('will-navigate', (event, url) => {
+        event.preventDefault()
+        console.log(event, url)
+        winHandle.close()
+        winHandle.destroy()
+    })
+
   }
 
   public renewAccessToken() {}

@@ -10,4 +10,6 @@ export class AppComponent {
   title = 'ebaytool'
 
   constructor(public _ebay: EbayService) {}
+
+  public doLogin() { this._ebay.doLogin()  }
 }

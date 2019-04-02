@@ -12,11 +12,11 @@ import { Config } from './config'
 export class EbayService {
     // This class is a super-service for all of the eBay sub-services like Auth and the Inventory API
     // which are located in the ebay folder
-    private config: Observable<Config>
-    private productionConfig: Config
-    private sandboxConfig: Config
-    private windowHandle: Electron.BrowserWindow = null
 
+    // tokens.ts contains an object for holding token information.
+
+    private windowHandle: Electron.BrowserWindow = null
+    public bigUrl: string
     @LocalStorage() public siteModel: string // holds the region identifier
     @LocalStorage() public isSandbox: boolean // switch to handle whether it's sandbox or not
 
@@ -25,16 +25,11 @@ export class EbayService {
     this.siteModel = 'EBAY_US'
     this.isSandbox = false
     // end temp variables. clean up later.
-    this.config = this._http.get('assets/config.json') as Observable<Config>
-    this.config.toPromise().then((res: any) => {
-      this.productionConfig = res.ebay as Config
-      this.sandboxConfig = res.ebaysandbox as Config
-    })
   }
   public swapEnv(b: boolean) { this.isSandbox = b }
-  public openAuthWindow(url: string): Electron.BrowserWindow {
-    const win: Electron.BrowserWindow = this._auth.openAuthWindow(url)
-    return win
+
+  public doLogin() {
+    this._auth.getTokenSet()
   }
 }
 // need better way to flip from prod to sandbox
