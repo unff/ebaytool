@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ElectronService } from 'ngx-electron'
+// import { BrowserWindow, WebContents } from 'electron'
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,31 @@ export class AuthService {
       win.loadURL(url)
       win.once('ready-to-show', () => {win.show()})
       return win
-    } catch(e) {
+    } catch (e) {
       if (e instanceof TypeError) { return null } // bad URL, no likey
     }
   }
 
-  public getTokenSet() {}
+  public getTokenSet() {
+    const winHandle = this.openAuthWindow()
+  }
 
   public renewAccessToken() {}
+
+  private fullAuthUrl() {
+    // no config in this service. shit.
+    const scope = encodeURIComponent(
+              this.runningConfig.scope
+              .reduce((acc, val) => acc + ' ' + val)
+              // .trim()
+            )
+    return  this.runningConfig.authorizeUrl
+          + '?client_id=' + this.runningConfig.clientId
+          + '&response_type=code'
+          + '&redirect_uri=' + this.runningConfig.ruName
+          + '&scope=' + scope
+  }
+
 }
 // Token flow:
 // Open Window
